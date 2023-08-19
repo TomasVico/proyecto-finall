@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Detalle del artículo</h2>
+    <div class="article-content">
+        <p>{{ article.content }}</p>
+    </div>
+    <a href="{% url 'article_list' %}">Volver a la lista de artículos</a>
+{% endblock %}

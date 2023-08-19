@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Bienvenido</h2>
+
+{% if user.is_authenticated %}
+    <h2>Publica aquí tu artículo</h2>
+    <!-- Formulario para agregar artículos -->
+    <form method="post" action="{% url 'add_article' %}">
+        {% csrf_token %}
+        {{ form.content }}
+        <div class="character-count">{{ form.content.value|length }} / 150 caracteres</div>
+        <button type="submit" class="button">Agregar artículo</button>
+    </form>
+{% else %}
+    <!-- Botón de inicio de sesión -->
+    <a class="button" href="{% url 'login' %}">Iniciar sesión para publicar</a>
+{% endif %}
+
+<!-- Lista de artículos -->
+<div class="articles-container">
+    {% if articles %}
+    {% for article in articles %}
+    <div class="article-box">
+        <div class="article-content">
+            <p>{{ article.content }}</p>
+        </div>
+        <a class="button" href="{% url 'article_detail' article.id %}">Ver detalle</a>
+        {% if user.is_authenticated and user == article.author %}
+            <div class="article-buttons">
+                <a class="button" href="{% url 'edit_article' article.id %}">Editar artículo</a>
+                <a class="button" href="{% url 'delete_article' article.id %}">Borrar artículo</a>
+            </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No hay entradas aún.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

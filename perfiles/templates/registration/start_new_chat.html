@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Iniciar un nuevo chat</h2>
+<ul>
+    {% for user in users %}
+    <li><a href="{% url 'initiate_chat' user.id %}">Iniciar chat con {{ user.username }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
